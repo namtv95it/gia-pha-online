@@ -1,0 +1,102 @@
+:root {
+  /* ===== Màu truyền thống Việt Nam ===== */
+  --primary:        #8B4513;   /* Nâu gỗ trầm */
+  --primary-light:  #A0522D;
+  --primary-dark:   #6B3410;
+  --secondary:      #C8A96E;   /* Vàng đồng */
+  --secondary-light:#D4B896;
+  --accent:         #C0392B;   /* Son đỏ */
+  --accent-light:   #E74C3C;
+  --success:        #5A7A5A;   /* Xanh lá trầm */
+  --warning:        #E67E22;   /* Cam đất */
+
+  /* ===== Nền ===== */
+  --bg-warm:        #FDF6E9;   /* Nền kem ấm chính */
+  --bg-light:       #FEFCF7;   /* Trắng ngà */
+  --bg-card:        #FFFFFF;
+  --bg-sidebar:     #F5EDD8;   /* Nền sidebar ấm */
+  --bg-nav:         #2C1810;   /* Navbar nâu đen */
+  --bg-muted:       #F0E6D0;
+
+  /* ===== Chữ ===== */
+  --text-primary:   #2C1810;   /* Nâu đen đậm */
+  --text-secondary: #6B4E37;   /* Nâu trung */
+  --text-muted:     #9E8070;   /* Xám ấm */
+  --text-light:     #FEFCF7;   /* Chữ sáng trên nền tối */
+
+  /* ===== Border ===== */
+  --border:         #DDD0B8;
+  --border-light:   #EDE4D0;
+  --border-strong:  #C8A96E;
+
+  /* ===== Radius & Shadow ===== */
+  --radius-sm:    6px;
+  --radius-md:    10px;
+  --radius-lg:    16px;
+  --radius-full:  9999px;
+  --shadow-sm:    0 1px 4px rgba(44,24,16,.08);
+  --shadow-md:    0 4px 16px rgba(44,24,16,.12);
+  --shadow-lg:    0 8px 32px rgba(44,24,16,.16);
+
+  /* ===== Typography ===== */
+  --font-sans:    'Inter', 'Segoe UI', system-ui, sans-serif;
+  --font-serif:   'Georgia', 'Times New Roman', serif;
+
+  /* ===== Transitions ===== */
+  --transition:   all .2s ease;
+}
+
+/* ===== Reset ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { font-size: 16px; scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-warm);
+  color: var(--text-primary);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+button { cursor: pointer; border: none; background: none; font: inherit; }
+input, textarea, select { font: inherit; outline: none; }
+
+/* ===== Scrollbar ===== */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-muted); }
+::-webkit-scrollbar-thumb { background: var(--secondary); border-radius: var(--radius-full); }
+::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
+/* ===== Utilities ===== */
+.text-center { text-align: center; }
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.items-center { align-items: center; }
+.justify-center { justify-content: center; }
+.gap-1 { gap: 4px; }
+.gap-2 { gap: 8px; }
+.gap-3 { gap: 12px; }
+.gap-4 { gap: 16px; }
+.w-full { width: 100%; }
+.h-full { height: 100%; }
+.truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ===== Page loader ===== */
+.page-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: var(--bg-warm);
+}
+.spinner {
+  width: 40px; height: 40px;
+  border: 3px solid var(--border);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }

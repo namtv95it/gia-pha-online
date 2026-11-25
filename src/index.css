@@ -1,0 +1,167 @@
+@import "tailwindcss";
+
+/* ===== Custom theme variables ===== */
+@theme {
+  --color-primary:        #8B4513;
+  --color-primary-light:  #A0522D;
+  --color-primary-dark:   #6B3410;
+  --color-secondary:      #C8A96E;
+  --color-secondary-light:#D4B896;
+  --color-accent:         #C0392B;
+  --color-success:        #2D572C;
+  --color-warning:        #E67E22;
+
+  --color-bg-warm:        #FAF7F0;
+  --color-bg-light:       #FFFDF9;
+  --color-bg-card:        #FFFFFF;
+  --color-bg-sidebar:     #F7F2E7;
+  --color-bg-nav:         #FFFFFF;
+  --color-bg-muted:       #EFE8DC;
+
+  --color-text-primary:   #2C1810;
+  --color-text-secondary: #6B4E37;
+  --color-text-muted:     #8C7662;
+  --color-text-light:     #FEFCF7;
+
+  --color-border:         #DDD0B8;
+  --color-border-light:   #E8DFCF;
+  --color-border-strong:  #C8A96E;
+
+  --font-sans: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-serif: 'Lora', 'Georgia', serif;
+}
+
+/* ===== CSS variables (phục vụ legacy inline styles nếu có) ===== */
+:root {
+  --primary:        #8B4513;
+  --primary-light:  #A0522D;
+  --primary-dark:   #6B3410;
+  --secondary:      #C8A96E;
+  --secondary-light:#D4B896;
+  --accent:         #C0392B;
+  --accent-light:   #E74C3C;
+  --success:        #2D572C;
+  --warning:        #E67E22;
+  --bg-warm:        #FAF7F0;
+  --bg-light:       #FFFDF9;
+  --bg-card:        #FFFFFF;
+  --bg-sidebar:     #F7F2E7;
+  --bg-nav:         #FFFFFF;
+  --bg-muted:       #EFE8DC;
+  --text-primary:   #2C1810;
+  --text-secondary: #6B4E37;
+  --text-muted:     #8C7662;
+  --text-light:     #FEFCF7;
+  --border:         #DDD0B8;
+  --border-light:   #E8DFCF;
+  --border-strong:  #C8A96E;
+  --radius-sm:    8px;
+  --radius-md:    12px;
+  --radius-lg:    16px;
+  --radius-full:  9999px;
+  --shadow-sm:    0 1px 3px rgba(44,24,16,.06);
+  --shadow-md:    0 4px 14px rgba(44,24,16,.08);
+  --shadow-lg:    0 8px 30px rgba(44,24,16,.12);
+  --font-sans:    'Be Vietnam Pro', sans-serif;
+  --font-serif:   'Lora', serif;
+}
+
+/* ===== Base layer resets (không ghi đè utility classes) ===== */
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    font-family: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #FAF7F0;
+    color: #2C1810;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* Khắc phục lỗi font tiếng Việt: không dùng letter-spacing âm cho tiêu đề */
+  h1, h2, h3, h4, h5, h6 {
+    letter-spacing: normal;
+    text-rendering: optimizeLegibility;
+  }
+
+  button {
+    cursor: pointer;
+    font: inherit;
+  }
+
+  input, textarea, select {
+    font: inherit;
+    outline: none;
+  }
+}
+
+/* ===== Custom reusable button classes ===== */
+.btn-primary {
+  background-color: #2D572C;
+  color: #FFFFFF !important;
+  font-weight: 600;
+  border-radius: 0.75rem;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  text-decoration: none;
+}
+
+.btn-primary:hover {
+  background-color: #234523;
+  color: #FFFFFF !important;
+}
+
+.btn-secondary {
+  background-color: #FFFFFF;
+  color: #6B4E37 !important;
+  border: 1px solid #D5C4A6;
+  font-weight: 600;
+  border-radius: 0.75rem;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  text-decoration: none;
+}
+
+.btn-secondary:hover {
+  background-color: #FAF6EE;
+  border-color: #8B4513;
+  color: #2C1810 !important;
+}
+
+/* ===== Scrollbar ===== */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-muted); }
+::-webkit-scrollbar-thumb { background: var(--secondary); border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
+/* ===== Spinner ===== */
+.page-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: var(--bg-warm);
+}
+.spinner {
+  width: 40px; height: 40px;
+  border: 3px solid var(--border);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
