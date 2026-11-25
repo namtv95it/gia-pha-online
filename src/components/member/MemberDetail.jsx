@@ -1,5 +1,7 @@
 import useFamilyStore from '../../store/familyStore';
+import useAuthStore from '../../store/authStore';
 import { deleteMember } from '../../firebase/members';
+import { logActivity } from '../../firebase/activities';
 import { X, Pencil, Trash2, MapPin, Calendar, Users, User, BookOpen } from 'lucide-react';
 
 export default function MemberDetail({ onEdit, canEdit, onReload }) {
@@ -12,11 +14,31 @@ export default function MemberDetail({ onEdit, canEdit, onReload }) {
   const parents = (member.parentIds || []).map(findById).filter(Boolean);
   const spouses = (member.spouseIds || []).map(findById).filter(Boolean);
   const children = (member.childIds || []).map(findById).filter(Boolean);
-  const isDeceased = !!member.deathDate;
+  const isDeceased = !!(member.isDeceased || member.deathDate || member.deathDateLunar);
 
   const handleDelete = async () => {
     if (!confirm(`Xóa thành viên "${member.fullName}"?`)) return;
+    if (currentFamily?.id === 'demo-nguyen-van') {
+      const { members: storeMembers, setMembers, addLocalActivity } = useFamilyStore.getState();
+      setMembers(storeMembers.filter((m) => m.id !== member.id));
+      addLocalActivity({
+        id: `act-${Date.now()}`,
+        type: 'member_delete',
+        title: 'Xóa thành viên',
+        description: `Đã xóa ${member.fullName} khỏi cây gia phả`,
+        actorName: useAuthStore.getState().user?.displayName || 'Quản trị viên',
+        createdAt: new Date().toISOString(),
+      });
+      setSelectedMemberId(null);
+      return;
+    }
     await deleteMember(currentFamily.id, member.id);
+    await logActivity(currentFamily.id, {
+      type: 'member_delete',
+      title: 'Xóa thành viên',
+      description: `Đã xóa ${member.fullName} khỏi cây gia phả`,
+      actorName: useAuthStore.getState().user?.displayName || 'Quản trị viên',
+    });
     setSelectedMemberId(null);
     onReload?.();
   };
@@ -69,7 +91,7 @@ export default function MemberDetail({ onEdit, canEdit, onReload }) {
             }}>{member.role}</span>
           )}
           <div style={{ fontSize:13, marginTop:6, opacity:.8 }}>
-            {member.birthDate} {member.deathDate ? `– ${member.deathDate}` : ''}
+            {member.birthDate || '?'} {isDeceased ? `– ${member.deathDate || member.deathDateLunar || 'Đã mất'}` : ''}
           </div>
         </div>
       </div>
@@ -102,8 +124,8 @@ export default function MemberDetail({ onEdit, canEdit, onReload }) {
 
       {/* Detail */}
       <div style={{ padding:'16px 20px', flex:1 }}>
-        <Row label="Ngày sinh" value={member.birthDate} icon={Calendar} />
-        <Row label="Ngày mất" value={member.deathDate} icon={Calendar} />
+        <Row label="Ngày sinh" value={member.birthDate ? `${member.birthDate}${member.birthDateLunar ? ` (${member.birthDateLunar} ÂL)` : ''}` : member.birthDateLunar} icon={Calendar} />
+        <Row label="Ngày mất" value={isDeceased ? (member.deathDate ? `${member.deathDate}${member.deathDateLunar ? ` (${member.deathDateLunar} ÂL)` : ''}` : (member.deathDateLunar ? `${member.deathDateLunar} (ÂL)` : 'Không rõ ngày (Đã mất)')) : null} icon={Calendar} />
         <Row label="Vợ / Chồng" value={spouses.map((s) => s.fullName).join(', ')} icon={Users} />
         <Row label="Quê quán" value={member.hometown} icon={MapPin} />
         <Row label="Số con" value={children.length ? `${children.length} người (${children.filter(c=>c.gender!=='female').length} trai, ${children.filter(c=>c.gender==='female').length} gái)` : null} icon={Users} />

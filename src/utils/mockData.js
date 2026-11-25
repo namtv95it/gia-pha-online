@@ -195,3 +195,42 @@ export const MOCK_EVENTS = [
     description: 'Giỗ thường niên tại nhà thờ chi phái.',
   },
 ];
+
+const daysAgoIso = (days) => new Date(Date.now() - days * 86400000).toISOString();
+
+export const MOCK_ACTIVITIES = [
+  {
+    id: 'act-1',
+    type: 'member_add',
+    title: 'Thêm thành viên mới',
+    description: 'Đã thêm Nguyễn Minh Anh (thế hệ 5)',
+    actorName: 'Quản trị viên',
+    targetId: '14',
+    createdAt: daysAgoIso(2),
+  },
+  {
+    id: 'act-2',
+    type: 'member_edit',
+    title: 'Cập nhật thông tin',
+    description: 'Đã chỉnh sửa tiểu sử cụ Nguyễn Văn Bình',
+    actorName: 'Quản trị viên',
+    targetId: '6',
+    createdAt: daysAgoIso(5),
+  },
+  {
+    id: 'act-3',
+    type: 'event_add',
+    title: 'Tạo sự kiện',
+    description: 'Đã tạo sự kiện "Lễ giỗ Cụ Nguyễn Văn Bình"',
+    actorName: 'Quản trị viên',
+    createdAt: daysAgoIso(7),
+  },
+  {
+    id: 'act-4',
+    type: 'family_update',
+    title: 'Cập nhật dòng họ',
+    description: 'Đã cập nhật mô tả gia phả Họ Nguyễn',
+    actorName: 'Quản trị viên',
+    createdAt: daysAgoIso(12),
+  },
+];

@@ -119,7 +119,7 @@ export default function Members() {
 }
 
 function MemberCard({ member, selected, onClick, onEdit, canEdit }) {
-  const isDeceased = !!member.deathDate;
+  const isDeceased = !!(member.isDeceased || member.deathDate || member.deathDateLunar);
   return (
     <div
       onClick={onClick}

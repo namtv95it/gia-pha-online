@@ -4,6 +4,7 @@ import useFamily from '../../hooks/useFamily';
 import { useParams } from 'react-router-dom';
 import { updateFamily } from '../../firebase/families';
 import { addManager, removeManager } from '../../firebase/families';
+import { logActivity } from '../../firebase/activities';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../../firebase';
 import useAuthStore from '../../store/authStore';
@@ -49,6 +50,12 @@ export default function Settings() {
     await updateFamily(currentFamily.id, {
       name, description: desc,
       ...(base64 ? { coverImage: base64 } : {})
+    });
+    await logActivity(currentFamily.id, {
+      type: 'family_update',
+      title: 'Cập nhật dòng họ',
+      description: `Đã cập nhật thông tin gia phả ${name}`,
+      actorName: user?.displayName || user?.email || 'Quản trị viên',
     });
     setSaving(false);
     setMsg('Đã lưu thành công!');

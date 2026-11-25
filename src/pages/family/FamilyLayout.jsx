@@ -5,9 +5,9 @@ import { AlertCircle } from 'lucide-react';
 
 export default function FamilyLayout() {
   const { slug } = useParams();
-  const { family, loading, error } = useFamily(slug);
+  const { family, loading, error } = useFamily(slug, { resetOnUnmount: true });
 
-  if (loading) return <div className="page-loader"><div className="spinner" /></div>;
+  if (loading && !family) return <div className="page-loader"><div className="spinner" /></div>;
 
   if (error || !family) {
     return (

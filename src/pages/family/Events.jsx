@@ -4,6 +4,8 @@ import useFamilyStore from '../../store/familyStore';
 import useFamily from '../../hooks/useFamily';
 import { useParams } from 'react-router-dom';
 import { addEvent, updateEvent, deleteEvent } from '../../firebase/events';
+import { logActivity } from '../../firebase/activities';
+import useAuthStore from '../../store/authStore';
 import { formatLunarDate } from '../../utils/lunarCalendar';
 
 const EVENT_TYPES = {
@@ -52,6 +54,12 @@ export default function Events() {
     const data = { ...form, dateLunar };
     if (editEvent) await updateEvent(currentFamily.id, editEvent.id, data);
     else await addEvent(currentFamily.id, data);
+    await logActivity(currentFamily.id, {
+      type: editEvent ? 'event_edit' : 'event_add',
+      title: editEvent ? 'Cập nhật sự kiện' : 'Tạo sự kiện',
+      description: `${editEvent ? 'Đã cập nhật' : 'Đã tạo'} sự kiện "${form.title}"`,
+      actorName: useAuthStore.getState().user?.displayName || 'Quản trị viên',
+    });
     setSaving(false);
     setShowForm(false);
     reload();

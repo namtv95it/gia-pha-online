@@ -2,17 +2,23 @@ import { create } from 'zustand';
 
 const useFamilyStore = create((set, get) => ({
   currentFamily: null,  // Gia phả hiện tại
+  loadedSlug: null,     // Slug đã tải xong
   members: [],
   events: [],
   managers: [],
+  activities: [],
   selectedMemberId: null,
   loading: false,
   error: null,
 
   setCurrentFamily: (family) => set({ currentFamily: family }),
+  setLoadedSlug: (loadedSlug) => set({ loadedSlug }),
   setMembers: (members) => set({ members }),
   setEvents: (events) => set({ events }),
   setManagers: (managers) => set({ managers }),
+  setActivities: (activities) => set({ activities }),
+  addLocalActivity: (activity) =>
+    set((state) => ({ activities: [activity, ...state.activities] })),
   setSelectedMemberId: (id) => set({ selectedMemberId: id }),
   setLoading: (loading) => set({ loading }),
   setError: (error) => set({ error }),
@@ -27,9 +33,11 @@ const useFamilyStore = create((set, get) => ({
   reset: () =>
     set({
       currentFamily: null,
+      loadedSlug: null,
       members: [],
       events: [],
       managers: [],
+      activities: [],
       selectedMemberId: null,
       loading: false,
       error: null,
